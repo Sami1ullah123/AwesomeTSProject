@@ -1,0 +1,52 @@
+/* eslint-disable prettier/prettier */
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prettier/prettier */
+/* eslint-disable eol-last */
+/* eslint-disable prettier/prettier */
+/* eslint-disable semi */
+/* eslint-disable jsx-quotes */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable prettier/prettier */
+import { View } from 'react-native'
+import React from 'react'
+import { Box, Input, Button, Alert } from 'native-base';
+import { useState } from 'react';
+import auth from '@react-native-firebase/auth';
+import Login from './Login';
+import { Text } from 'react-native-svg';
+
+export default function SignUp({ navigation }: { navigation: any }) {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [pass, setPass] = useState('');
+    const [pno, setPno] = useState('');
+    const handleRegistration = async () => {
+        console.log('The entered Data is', name, email, pass, pno);
+        const res = await auth()
+            .createUserWithEmailAndPassword(email, pass,)
+            .then(() => {
+                console.log('response', res);
+            })
+    }
+
+    return (
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
+            <Box alignItems={'center'} justifyItems={'center'}>
+
+                <Input placeholder='Enter Name' w={'80%'} variant={'rounded'} value={name} onChangeText={setName}></Input>
+                <Input mt={2} placeholder={'Enter Email'} w={'80%'} variant={'rounded'} value={email} onChangeText={setEmail} ></Input>
+                <Input mt={2} placeholder='Enter Phone' w={'80%'} variant={'rounded'} value={pno} onChangeText={setPno}></Input>
+                <Input mt={2} placeholder={'Enter password'} w={'80%'} variant={'rounded'} value={pass} onChangeText={setPass}></Input>
+                <Button mt={2} onPress={
+                    handleRegistration} variant={'solid'} borderRadius={20}>SignUp
+                </Button>
+                <Button mt={2} onPress={() => navigation.navigate('Login')}
+                    variant={'solid'} borderRadius={20}>
+                    Already Have an Account?
+                </Button>
+            </Box>
+        </View>
+    )
+}
