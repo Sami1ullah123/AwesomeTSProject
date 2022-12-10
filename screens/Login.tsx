@@ -22,7 +22,10 @@ export default function Login({ navigation }: { navigation: any }) {
     console.log('Data', Email, Pass);
     try {
       auth().signInWithEmailAndPassword(Email, Pass).then((res) => {
-        console.log('Response', res.user.phoneNumber);
+        console.log('Response', res);
+        if (res?.user.uid) {
+          navigation.navigate('Dashboard');
+        }
       })
     }
     catch (err) {

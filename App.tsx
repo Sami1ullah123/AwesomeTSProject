@@ -17,6 +17,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 // import GestureHandlerRootView, { GestureHandlerRootViewProps } from 'react-native-gesture-handler/lib/typescript/GestureHandlerRootView';
 import SignUp from './screens/SignUp';
 import Dashboard from './screens/Dashboard';
+import OTP from './screens/OTP';
 export default function App() {
   const Stack = createStackNavigator();
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Stack.Screen name='SignUp' component={SignUp} />
           <Stack.Screen name='Login' component={Login} />
           <Stack.Screen name='Dashboard' component={Dashboard} />
+          <Stack.Screen name='OTP' component={OTP} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

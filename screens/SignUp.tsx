@@ -14,21 +14,28 @@ import React from 'react'
 import { Box, Input, Button, Alert } from 'native-base';
 import { useState } from 'react';
 import auth from '@react-native-firebase/auth';
-import Login from './Login';
-import { Text } from 'react-native-svg';
+
+
+
+
 
 export default function SignUp({ navigation }: { navigation: any }) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [pno, setPno] = useState('');
+    const [otpCode, setOtpCode] = useState('');
     const handleRegistration = async () => {
         console.log('The entered Data is', name, email, pass, pno);
         const res = await auth()
-            .createUserWithEmailAndPassword(email, pass,)
+            .createUserWithEmailAndPassword(email, pass)
             .then(() => {
                 console.log('response', res);
             })
+        auth().verifyPhoneNumber(pno);
+
+        navigation.navigate('OTP', { pno });
+
     }
 
     return (
