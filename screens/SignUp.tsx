@@ -14,6 +14,7 @@ import React from 'react'
 import { Box, Input, Button, Alert } from 'native-base';
 import { useState } from 'react';
 import auth from '@react-native-firebase/auth';
+import { log } from 'react-native-reanimated';
 
 
 
@@ -24,19 +25,33 @@ export default function SignUp({ navigation }: { navigation: any }) {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [pno, setPno] = useState('');
-    const [otpCode, setOtpCode] = useState('');
+    const [otpCode, setOtpCode] = useState({});
+
     const handleRegistration = async () => {
         console.log('The entered Data is', name, email, pass, pno);
-        const res = await auth()
-            .createUserWithEmailAndPassword(email, pass)
-            .then(() => {
+
+        try {
+            auth().createUserWithEmailAndPassword(email, pass).then((res) => {
                 console.log('response', res);
+
+                console.log(pno);
+
             })
-        auth().verifyPhoneNumber(pno);
+            await auth().signInWithPhoneNumber(pno).then((data) => {
+                console.log(data);
+                setOtpCode(data);
+                console.log(otpCode);
+                navigation.navigate('OTP', otpCode);
 
-        navigation.navigate('OTP', { pno });
+            })
+            // console.log('ma);
+        }
 
+        catch (err) {
+            console.log('Err', err);
+        }
     }
+
 
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
