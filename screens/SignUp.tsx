@@ -11,7 +11,7 @@
 /* eslint-disable prettier/prettier */
 import { View } from 'react-native'
 import React from 'react'
-import { Box, Input, Button, Alert } from 'native-base';
+import { Box, Input, Button, Alert, ScrollView } from 'native-base';
 import { useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import { log } from 'react-native-reanimated';
@@ -66,21 +66,25 @@ export default function SignUp({ navigation }: { navigation: any }) {
     })
 
     return (
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
-            <Box alignItems={'center'} justifyItems={'center'}>
 
-                <Input placeholder='Enter Name' w={'80%'} variant={'rounded'} value={name} onChangeText={setName}></Input>
-                <Input mt={2} placeholder={'Enter Email'} w={'80%'} variant={'rounded'} value={email} onChangeText={setEmail} ></Input>
-                <Input mt={2} placeholder='Enter Phone' w={'80%'} variant={'rounded'} value={pno} onChangeText={setPno}></Input>
-                <Input mt={2} placeholder={'Enter password'} w={'80%'} variant={'rounded'} value={pass} onChangeText={setPass}></Input>
-                <Button mt={2} onPress={
-                    handleRegistration} variant={'solid'} borderRadius={20}>SignUp
-                </Button>
-                <Button mt={2} onPress={() => navigation.navigate('Login')}
-                    variant={'solid'} borderRadius={20}>
-                    Already Have an Account?
-                </Button>
-            </Box>
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
+            <ScrollView>
+                <Box alignItems={'center'} justifyItems={'center'}>
+
+                    <Input placeholder='Enter Name' w={'80%'} variant={'rounded'} value={name} onChangeText={setName}></Input>
+                    <Input mt={2} placeholder={'Enter Email'} w={'80%'} variant={'rounded'} value={email} onChangeText={setEmail} ></Input>
+                    <Input mt={2} placeholder='Enter Phone' w={'80%'} variant={'rounded'} value={pno} onChangeText={setPno}></Input>
+                    <Input mt={2} placeholder={'Enter password'} w={'80%'} variant={'rounded'} value={pass} onChangeText={setPass}></Input>
+                    <Button mt={2} onPress={
+                        handleRegistration} variant={'solid'} borderRadius={20}>SignUp
+                    </Button>
+                    <Button mt={2} onPress={() => navigation.navigate('Login')}
+                        variant={'solid'} borderRadius={20}>
+                        Already Have an Account?
+                    </Button>
+
+                </Box>
+            </ScrollView>
         </View>
     )
 }
