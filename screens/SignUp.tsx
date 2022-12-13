@@ -40,7 +40,7 @@ export default function SignUp({ navigation }: { navigation: any }) {
             })
             await auth().signInWithPhoneNumber(pno).then((res) => {
                 console.log('response', res);
-                setConfirm(res);
+                setConfirm(res)
                 navigation.navigate('OTP', confirm);
             })
 
@@ -55,15 +55,7 @@ export default function SignUp({ navigation }: { navigation: any }) {
         }
     }
 
-    auth().onAuthStateChanged((user) => {
-        if (user) {
-            setAuthenticated(true);
-            navigation.navigate('Dashboard');
-        }
-        else {
-            setAuthenticated(false);
-        }
-    })
+
 
     return (
 

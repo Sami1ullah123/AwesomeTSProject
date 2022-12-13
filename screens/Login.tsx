@@ -17,7 +17,7 @@ export default function Login({ navigation }: { navigation: any }) {
   // const navigation.navigate
   const [Email, SetEmail] = useState('');
   const [Pass, SetPass] = useState('');
-
+  const [authenticated, setAuthenticated] = useState(false);
   const handleLogin = async () => {
     console.log('Data', Email, Pass);
     try {
@@ -32,6 +32,25 @@ export default function Login({ navigation }: { navigation: any }) {
       console.log('Err', err);
     }
   }
+  auth().onAuthStateChanged((user) => {
+    try {
+      if (user) {
+        setAuthenticated(true);
+        navigation.navigate('Dashboard');
+        // console.log(auth().currentUser?.phoneNumber);
+      }
+      else {
+        setAuthenticated(false);
+      }
+
+    }
+    catch (err) {
+      if (err.message == 'auth/no-current-user') {
+        setAuthenticated(false);
+      }
+    }
+  })
+
   return (
     <View style={{ backgroundColor: 'white', flex: 1 }}>
 

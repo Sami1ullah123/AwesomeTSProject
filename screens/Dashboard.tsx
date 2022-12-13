@@ -14,6 +14,7 @@ export default function Dashboard({ navigation }) {
         auth().signOut();
         navigation.navigate('Login');
     }
+    console.log(auth().currentUser?.phoneNumber);
     return (
         <View>
             <Text>Dashboard</Text>

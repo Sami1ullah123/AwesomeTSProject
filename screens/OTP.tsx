@@ -12,7 +12,8 @@ export default function OTP({ route, navigation }) {
     const handleConfirmation = async () => {
 
         try {
-            await confrim.confirm(code).then((res) => {
+            const credentials = await confrim.confirm(code).then((res) => {
+                auth().currentUser?.linkWithCredential(credentials);
                 console.log('verification', res);
                 navigation.navigate('Dashboard');
             });
@@ -25,6 +26,8 @@ export default function OTP({ route, navigation }) {
             }
         }
     }
+
+
     return (
         <View>
             <Text style={{ color: 'black' }}>OTP</Text>
