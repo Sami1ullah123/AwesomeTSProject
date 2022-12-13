@@ -25,7 +25,8 @@ export default function SignUp({ navigation }: { navigation: any }) {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [pno, setPno] = useState('');
-    const [otpCode, setOtpCode] = useState({});
+    const [confirm, setConfirm] = useState({});
+    const [authenticated, setAuthenticated] = useState(false);
 
     const handleRegistration = async () => {
         console.log('The entered Data is', name, email, pass, pno);
@@ -37,21 +38,32 @@ export default function SignUp({ navigation }: { navigation: any }) {
                 console.log(pno);
 
             })
-            await auth().signInWithPhoneNumber(pno).then((data) => {
-                console.log(data);
-                setOtpCode(data);
-                console.log(otpCode);
-                navigation.navigate('OTP', otpCode);
-
+            await auth().signInWithPhoneNumber(pno).then((res) => {
+                console.log('response', res);
+                setConfirm(res);
+                navigation.navigate('OTP', confirm);
             })
-            // console.log('ma);
+
+
+
         }
+        // console.log('ma);
+
 
         catch (err) {
             console.log('Err', err);
         }
     }
 
+    auth().onAuthStateChanged((user) => {
+        if (user) {
+            setAuthenticated(true);
+            navigation.navigate('Dashboard');
+        }
+        else {
+            setAuthenticated(false);
+        }
+    })
 
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>

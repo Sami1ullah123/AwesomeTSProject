@@ -6,18 +6,16 @@ import auth from '@react-native-firebase/auth'
 export default function OTP({ route, navigation }) {
     const [code, setCode] = useState('');
 
-    const otpCode = route.params;
+    const confrim = route.params;
 
-    console.log(otpCode);
+    console.log(confrim);
     const handleConfirmation = async () => {
 
         try {
-            const res = auth.PhoneAuthProvider.credential(otpCode.verificationId, code)
-            if (res.token == otpCode.verificationId) {
-                console.log('response', res)
-            }
-            // navigation.navigate('Dashboard');
-
+            await confrim.confirm(code).then((res) => {
+                console.log('verification', res);
+                navigation.navigate('Dashboard');
+            });
         }
         catch (error) {
             if (error.code == 'auth/invalid-verification-code') {
@@ -27,7 +25,6 @@ export default function OTP({ route, navigation }) {
             }
         }
     }
-
     return (
         <View>
             <Text style={{ color: 'black' }}>OTP</Text>
