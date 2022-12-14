@@ -7,7 +7,9 @@ const ADDUsers = () => {
     const [fname, setFName] = useState('');
     const [lName, setLName] = useState('');
     const [size, setSize] = useState(0);
-    const [data, setData] = useState({});
+    const [Data, setData] = useState([{}]);
+    // const [result, setResult] = useState([]);
+
     const users = async () => {
         await fireStore().collection('Users').doc().set({
             firstName: fname,
@@ -15,7 +17,8 @@ const ADDUsers = () => {
         });
         const res = await fireStore().collection('Users').doc().get();
         console.log(res);
-        fireStore()
+
+        await fireStore()
             .collection('Users')
             .get()
             .then(querySnapshot => {
@@ -26,6 +29,7 @@ const ADDUsers = () => {
                     setData(documentSnapshot.data());
                 });
 
+
             })
     }
     useEffect(() => {
@@ -35,8 +39,9 @@ const ADDUsers = () => {
             .then(querySnapshot => {
                 console.log('Total users: ', querySnapshot.size);
                 setSize(querySnapshot.size);
+
             })
-    }, [])
+    });
     // fireStore()
     //     .collection('Users')
     //     .get()
@@ -60,6 +65,9 @@ const ADDUsers = () => {
     //             console.log('User data: ', documentSnapshot.data());
     //         }
     //     });
+
+    console.log('data', Data);
+    // setResult(data);
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
             <Heading m={5} size={'xl'} alignSelf={'center'}  > Add User</Heading>
@@ -70,8 +78,15 @@ const ADDUsers = () => {
 
             <View>
                 <Text style={{ color: 'black' }}>{size}</Text>
-                {/* <Text>  </Text */}
-
+                {/* <Text>{data.firstName}</Text>
+                 */}
+                {/* {
+                    Data.map((item, index) => {
+                        return (
+                            <Text key={index}>{item}</Text>
+                        )
+                    })
+                } */}
             </View>
         </View>
     )
