@@ -26,7 +26,7 @@ export default function SignUp({ navigation }: { navigation: any }) {
     const [pass, setPass] = useState('');
     const [pno, setPno] = useState('');
     const [confirm, setConfirm] = useState({});
-    const [authenticated, setAuthenticated] = useState(false);
+    // const [authenticated, setAuthenticated] = useState(false);
 
     const handleRegistration = async () => {
         console.log('The entered Data is', name, email, pass, pno);
@@ -34,15 +34,14 @@ export default function SignUp({ navigation }: { navigation: any }) {
         try {
             auth().createUserWithEmailAndPassword(email, pass).then((res) => {
                 console.log('response', res);
-
                 console.log(pno);
+            })
+            const cofirmation = await auth().signInWithPhoneNumber(pno)
+            console.log('object', cofirmation);
+            setConfirm(cofirmation);
+            navigation.navigate('OTP', confirm);
 
-            })
-            await auth().signInWithPhoneNumber(pno).then((res) => {
-                console.log('response', res);
-                setConfirm(res)
-                navigation.navigate('OTP', confirm);
-            })
+
 
 
 
@@ -54,6 +53,16 @@ export default function SignUp({ navigation }: { navigation: any }) {
             console.log('Err', err);
         }
     }
+
+    // auth().onAuthStateChanged((user) => {
+    //     if (user) {
+    //         setAuthenticated(true);
+    //         navigation.navigate('Dashboard');
+    //     }
+    //     else {
+    //         setAuthenticated(false);
+    //     }
+    // })
 
 
 

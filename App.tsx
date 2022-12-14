@@ -20,21 +20,31 @@ import Dashboard from './screens/Dashboard';
 import OTP from './screens/OTP';
 // import { firebase } from '@react-native-firebase/auth';
 // import appCheck from '@react-native-firebase/app'
-import appCheck from '@react-native-firebase/app-check';
+// import appCheck from '@react-native-firebase/app-check';
 // import { firebase } from '@react-native-firebase/auth';
-import firebase from '@react-native-firebase/app'
+// import firebase from '@react-native-firebase/app'
+// import { firebase } from '@react-native-firebase/app-check';
 
 export default function App() {
   const Stack = createStackNavigator();
 
-  firebase.appCheck().activate("ignored_param", true).then(() => {
-    firebase.appCheck().getToken().then((token) => {
-      console.log("token: ", token.token)
-    }).catch(error => {
-      console.log("token error", error)
-    })
-  })
+  // useEffect(() => {
+  //   appCheck().setTokenAutoRefreshEnabled(true);
+  //   appCheck().getToken().then((res) => { console.log(res); })
+  // }, [])
 
+  // const token = async () => {
+
+  //   try {
+  //     await firebase.appCheck().getToken().then((res) => { console.log('response', res); })
+
+  //   }
+  //   catch (err) {
+  //     console.log('error', err);
+  //   }
+
+  // }
+  // console.log('Token', token);
 
   return (
 

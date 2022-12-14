@@ -1,21 +1,23 @@
-import { View, Text } from 'react-native'
+import { View, Text, ToastAndroid } from 'react-native'
 import React, { useState } from 'react'
-import { Button, Input } from 'native-base'
+import { Button, Input, } from 'native-base'
 import auth from '@react-native-firebase/auth'
 
 export default function OTP({ route, navigation }) {
     const [code, setCode] = useState('');
 
-    const confrim = route.params;
+    const confirm = route.params;
 
-    console.log(confrim);
+    console.log(confirm);
     const handleConfirmation = async () => {
 
         try {
-            const credentials = await confrim.confirm(code).then((res) => {
-                auth().currentUser?.linkWithCredential(credentials);
-                console.log('verification', res);
+            await confirm.confirm(code).then((res) => {
+                console.log('verification', res)
+                // Toast.show(res);
+                ToastAndroid.show('Request sent successfully!', ToastAndroid.SHORT);
                 navigation.navigate('Dashboard');
+
             });
         }
         catch (error) {
