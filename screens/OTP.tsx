@@ -15,7 +15,7 @@ export default function OTP({ route, navigation }) {
             await confirm.confirm(code).then((res) => {
                 console.log('verification', res)
                 // Toast.show(res);
-                ToastAndroid.show('Request sent successfully!', ToastAndroid.SHORT);
+                ToastAndroid.show('Verification Successfuly', ToastAndroid.SHORT);
                 navigation.navigate('Dashboard');
 
             });
