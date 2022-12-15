@@ -5,10 +5,11 @@
 /* eslint-disable prettier/prettier */
 import { View, Text, ToastAndroid } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Center, Heading, Toast } from 'native-base';
+import { Box, Button, Center, Heading, HStack, Toast } from 'native-base';
 import auth from '@react-native-firebase/auth';
-import { Navigation } from 'react-native-navigation';
+
 import fireStore from '@react-native-firebase/firestore'
+
 
 export default function Dashboard({ navigation }) {
     const [size, setSize] = useState(0);
@@ -38,8 +39,12 @@ export default function Dashboard({ navigation }) {
                     No of Documents: {size}
                 </Center>
             </Box>
-            <Button onPress={() => navigation.navigate('ADDUsers')}> Add Users</Button>
+            <HStack>
+                <Button onPress={() => navigation.navigate('ADDUsers')} borderRadius={20} mx={10}> Add Users</Button>
+                <Button onPress={() => navigation.navigate('DisplayUser')} borderRadius={20} mx={10}> All Users</Button>
+            </HStack>
             <Button onPress={handleSignOut} alignSelf={'center'} position={'absolute'} bottom={10}   > Signout</Button>
+
         </View>
     )
 }

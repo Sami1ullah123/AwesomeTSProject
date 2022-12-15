@@ -36,10 +36,16 @@ export default function SignUp({ navigation }: { navigation: any }) {
                 console.log('response', res);
                 console.log(pno);
             })
-            const cofirmation = await auth().signInWithPhoneNumber(pno)
-            console.log('object', cofirmation);
-            setConfirm(cofirmation);
-            navigation.navigate('OTP', confirm);
+            try {
+                await auth().signInWithPhoneNumber(pno).then((cofirmation) => {
+                    console.log('object', cofirmation);
+                    setConfirm(cofirmation);
+                })
+                navigation.navigate('OTP', confirm);
+            }
+            catch (error) {
+                console.log('error', error);
+            }
 
 
 
@@ -83,6 +89,7 @@ export default function SignUp({ navigation }: { navigation: any }) {
                         variant={'solid'} borderRadius={20}>
                         Already Have an Account?
                     </Button>
+
 
                 </Box>
             </ScrollView>

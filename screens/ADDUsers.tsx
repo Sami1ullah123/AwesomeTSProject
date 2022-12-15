@@ -1,46 +1,76 @@
-import { View, Text } from 'react-native'
+import { View, ToastAndroid } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { Button, Heading, Input } from 'native-base';
+import { Alert, Box, Button, Heading, Input, ScrollView, Toast } from 'native-base';
 import fireStore from '@react-native-firebase/firestore';
 
-const ADDUsers = () => {
+
+
+const ADDUsers = ({ navigation }) => {
     const [fname, setFName] = useState('');
     const [lName, setLName] = useState('');
-    const [size, setSize] = useState(0);
-    const [Data, setData] = useState([{}]);
+    // const [size, setSize] = useState(0);
+    let Data = [];
     // const [result, setResult] = useState([]);
 
     const users = async () => {
-        await fireStore().collection('Users').doc().set({
-            firstName: fname,
-            lastName: lName,
-        });
-        const res = await fireStore().collection('Users').doc().get();
-        console.log(res);
+        if (fname == '' || lName == '') {
+            ToastAndroid.show('Fields Should not be Empty', ToastAndroid.SHORT);
+        }
+        else {
+            try {
 
-        await fireStore()
-            .collection('Users')
-            .get()
-            .then(querySnapshot => {
-                console.log('Total users: ', querySnapshot.size);
-                setSize(querySnapshot.size);
-                querySnapshot.forEach(documentSnapshot => {
-                    console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
-                    setData(documentSnapshot.data());
-                });
+                await fireStore().collection('Users').doc().set({
+                    firstName: fname,
+                    lastName: lName,
+                }).then(() => { ToastAndroid.show('Data Addes SuccessFully', ToastAndroid.SHORT); })
 
 
-            })
+            }
+            catch (err) {
+                ToastAndroid.show('Please Enter Data CareFully', ToastAndroid.SHORT);
+            }
+            // const res = await fireStore().collection('Users').doc().get();
+            // console.log(res);
+
+            //     await fireStore()
+            //         .collection('Users')
+            //         .get()
+            //         .then(querySnapshot => {
+            //             console.log('Total users: ', querySnapshot.size);
+            //             setSize(querySnapshot.size);
+            //             querySnapshot.forEach(documentSnapshot => {
+            //                 console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+            //                 Data.push(documentSnapshot.data());
+            //                 // console.log(Data);
+            //             });
+
+
+
+            //         })
+        }
     }
-    useEffect(() => {
-        fireStore()
-            .collection('Users')
-            .get()
-            .then(querySnapshot => {
-                console.log('Total users: ', querySnapshot.size);
-                setSize(querySnapshot.size);
-            })
-    });
+    // useEffect(() => {
+    //     // fireStore()
+    //     //     .collection('Users')
+    //     //     .get()
+    //     //     .then(querySnapshot => {
+    //     //         console.log('Total users: ', querySnapshot.size);
+    //     //         setSize(querySnapshot.size);
+    //     //         querySnapshot.forEach(documentSnapshot => {
+    //     //             console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+    //     //             Data.push(documentSnapshot.data());
+    //     //             // console.log(Data);
+    //     //         })
+    //     //         console.log(Data);
+    //     //     })
+    //     fireStore().collection('Users').get().then((querySnapshot) => {
+    //         querySnapshot.forEach(snapshot => {
+    //             Data.push(snapshot.data());
+    //             console.log('Allusers', Data);
+    //         }
+    //         )
+    //     })
+    // });
     // fireStore()
     //     .collection('Users')
     //     .get()
@@ -65,28 +95,38 @@ const ADDUsers = () => {
     //         }
     //     });
 
-    console.log('data', Data);
+    // console.log('data', Data);
     // setResult(data);
+
+
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
-            <Heading m={5} size={'xl'} alignSelf={'center'}  > Add User</Heading>
-            <Input mx={10} variant={'rounded'} marginBottom={5} placeholder={'Enter First Name'} value={fname} onChangeText={setFName}></Input>
-            <Input mx={10} variant={'rounded'} placeholder='Enter last-Name' mb={5} value={lName} onChangeText={setLName}></Input>
-            <Button mx={10} borderRadius={20} onPress={users} > Add</Button>
-            {/* <Button mx={10} borderRadius={20} onPress={allUsers} >Get</Button> */}
+            <ScrollView>
 
-            <View>
-                <Text style={{ color: 'black' }}>{size}</Text>
-                {/* <Text>{data.firstName}</Text>
-                 */}
+                <Heading m={5} size={'xl'} alignSelf={'center'}  > Add User</Heading>
+                <Input mx={10} variant={'rounded'} marginBottom={5} placeholder={'Enter First Name'} value={fname} onChangeText={setFName}></Input>
+                <Input mx={10} variant={'rounded'} placeholder='Enter last-Name' mb={5} value={lName} onChangeText={setLName}></Input>
+                <Button mx={10} borderRadius={20} onPress={users} > Add</Button>
+
+                {/* <Button mx={10} borderRadius={20} onPress={AllUsers} >Get</Button> */}
                 {/* {
-                    Data.map((item, index) => {
-                        return (
-                            <Text key={index}>{item}</Text>
-                        )
+                    Data.map((item, key) => {
+                        <Allusers key={key} Name={item.firstName}/>
+
+                        
                     })
                 } */}
-            </View>
+                <Button mt={2} onPress={() => navigation.navigate('DisplayUser')}
+                    variant={'solid'} borderRadius={20} mx={10}>
+                    Display Users
+                </Button>
+                {/* <Box mt={10}> */}
+                <Button mt={2} onPress={() => navigation.navigate('Dashboard')}
+                    position={'absolute'} alignSelf={'flex-end'}>
+                    DashBoard
+                </Button>
+                {/* </Box> */}
+            </ScrollView>
         </View>
     )
 }

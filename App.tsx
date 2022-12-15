@@ -19,6 +19,7 @@ import SignUp from './screens/SignUp';
 import Dashboard from './screens/Dashboard';
 import OTP from './screens/OTP';
 import ADDUsers from './screens/ADDUsers';
+import DisplayUser from './screens/DisplayUser';
 // import { firebase } from '@react-native-firebase/auth';
 // import appCheck from '@react-native-firebase/app'
 // import appCheck from '@react-native-firebase/app-check';
@@ -53,13 +54,14 @@ export default function App() {
     <NativeBaseProvider>
       <NavigationContainer>
 
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
 
           <Stack.Screen name='Login' component={Login} />
           <Stack.Screen name='SignUp' component={SignUp} />
           <Stack.Screen name='Dashboard' component={Dashboard} />
           <Stack.Screen name='OTP' component={OTP} />
           <Stack.Screen name='ADDUsers' component={ADDUsers} />
+          <Stack.Screen name='DisplayUser' component={DisplayUser} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
