@@ -39,7 +39,6 @@ const ADDUsers = () => {
             .then(querySnapshot => {
                 console.log('Total users: ', querySnapshot.size);
                 setSize(querySnapshot.size);
-
             })
     });
     // fireStore()

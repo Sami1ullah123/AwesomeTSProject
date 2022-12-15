@@ -8,7 +8,7 @@
 /* eslint-disable prettier/prettier */
 // eslint-disable-next-line keyword-spacing
 import { View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Button, Input } from 'native-base';
 
 import auth from '@react-native-firebase/auth';
@@ -32,24 +32,26 @@ export default function Login({ navigation }: { navigation: any }) {
       console.log('Err', err);
     }
   }
-  auth().onAuthStateChanged((user) => {
-    try {
-      if (user) {
-        setAuthenticated(true);
-        navigation.navigate('Dashboard');
-        // console.log(auth().currentUser?.phoneNumber);
-      }
-      else {
-        setAuthenticated(false);
-      }
+  useEffect(() => {
+    auth().onAuthStateChanged((user) => {
+      try {
+        if (user) {
+          setAuthenticated(true);
+          navigation.navigate('Dashboard');
+          // console.log(auth().currentUser?.phoneNumber);
+        }
+        else {
+          setAuthenticated(false);
+        }
 
-    }
-    catch (err) {
-      if (err.message == 'auth/no-current-user') {
-        setAuthenticated(false);
       }
-    }
-  })
+      catch (err) {
+        if (err.message == 'auth/no-current-user') {
+          setAuthenticated(false);
+        }
+      }
+    })
+  }, [])
 
   return (
     <View style={{ backgroundColor: 'white', flex: 1 }}>
