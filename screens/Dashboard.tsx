@@ -5,7 +5,7 @@
 /* eslint-disable prettier/prettier */
 import { View, Text, ToastAndroid } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Center, Heading, HStack, Toast } from 'native-base';
+import { Box, Button, Center, Heading, HStack } from 'native-base';
 import auth from '@react-native-firebase/auth';
 
 import fireStore from '@react-native-firebase/firestore'
@@ -42,7 +42,9 @@ export default function Dashboard({ navigation }) {
             <HStack>
                 <Button onPress={() => navigation.navigate('ADDUsers')} borderRadius={20} mx={10}> Add Users</Button>
                 <Button onPress={() => navigation.navigate('DisplayUser')} borderRadius={20} mx={10}> All Users</Button>
+
             </HStack>
+            <Button onPress={() => navigation.navigate('ActiveUsers')} borderRadius={20} mx={10} my={10} >Active Users</Button>
             <Button onPress={handleSignOut} alignSelf={'center'} position={'absolute'} bottom={10}   > Signout</Button>
 
         </View>

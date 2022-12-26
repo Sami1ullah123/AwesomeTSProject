@@ -22,12 +22,34 @@ const ADDUsers = ({ navigation }) => {
                 await fireStore().collection('Users').doc().set({
                     firstName: fname,
                     lastName: lName,
-                }).then(() => { ToastAndroid.show('Data Addes SuccessFully', ToastAndroid.SHORT); })
+                    // id: res.id,
+                })
+
+
+                await fireStore().collection('Users').get().then((querySnapshot) => {
+                    querySnapshot.forEach(snapshot => {
+                        // fireStore().collection('users').doc('').set
+                        // Data.push(snapshot.data());
+                        // inedx.push({ "id": snapshot.id });
+                        // console.log('Allusers', Data);
+                        // console.log('id', inedx);
+                        // console.log('res', Data)
+                        fireStore().collection('Users').doc(snapshot.id).update(
+                            {
+                                id: snapshot.id,
+                            }
+                        )
+                    }
+                    )
+                })
+                ToastAndroid.show('Data Addes SuccessFully', ToastAndroid.SHORT);
+
 
 
             }
             catch (err) {
                 ToastAndroid.show('Please Enter Data CareFully', ToastAndroid.SHORT);
+                console.log(err);
             }
             // const res = await fireStore().collection('Users').doc().get();
             // console.log(res);

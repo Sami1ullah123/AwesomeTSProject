@@ -10,42 +10,97 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable prettier/prettier */
 import { View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Input, Button, Alert, ScrollView } from 'native-base';
 import { useState } from 'react';
 import auth from '@react-native-firebase/auth';
-import { log } from 'react-native-reanimated';
+// import { log } from 'react-native-reanimated';
+// import database from '@react-native-firebase/database'
+// import firebase from '@react-native-firebase/app'
+// import Firebase from '@react-native-firebase/app-check'
+import database from '@react-native-firebase/database'
+// import { firebase } from '@react-native-firebase/app-check';
+import FirebaseApp from '@react-native-firebase/app';
+// import firebase from '../components/firbase/config'
 
 
 
 
 
 export default function SignUp({ navigation }: { navigation: any }) {
+
+
+    // useEffect(() => {
+
+    //     database().ref('users' + name).push().setWithPriority({
+    //         first: 'Ada',
+    //         last: 'Lovelace',
+    //     }, 1, (error) => {
+    //         if (error) console.error(error);
+    //     });
+
+    // }, [])
+
+    // console.log('New reference', newReference.root)
+
+    // newReference.set({
+    //     name: 'sami'
+    // }).then((res) => { console.log('res', res); })
+    // const newReference = async () => {
+    //     const newUserRef = FirebaseApp.database().set.ref('users');
+    //     console.log('New record key:', newUserRef.key);
+    //     try {
+    //         await newUserRef.set({
+    //             first: 'Ada',
+    //             last: 'Lovelace',
+    //         }).then((res) => { console.log('objr', res); });
+    //     }
+    //     catch (err) {
+    //         console.log('Err', err);
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     console.log('object', database().ref('users').set({
+    //         name: 'Sami',
+    //         cityL: 'San Francisco'
+    //     }).then((res) => { console.log('res', res); }));
+    // }, [])
+    // newReference.update({ name: 'sami' });
+
+
+
+
+
+
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [pno, setPno] = useState('');
-    const [confirm, setConfirm] = useState({});
+    // const [confirm, setConfirm] = useState({});
+    var confirm = {};
     // const [authenticated, setAuthenticated] = useState(false);
 
     const handleRegistration = async () => {
         console.log('The entered Data is', name, email, pass, pno);
 
         try {
-            auth().createUserWithEmailAndPassword(email, pass).then((res) => {
-                console.log('response', res);
+            await auth().createUserWithEmailAndPassword(email, pass).then((res) => {
+
+                console.log('response', res.user.uid);
+                database().ref(`/users/${res.user.uid}`).set({
+                    uid: res.user.uid,
+                    name: name,
+                    email: email,
+                })
                 console.log(pno);
             })
-            try {
-                await auth().signInWithPhoneNumber(pno).then((cofirmation) => {
-                    console.log('object', cofirmation);
-                    setConfirm(cofirmation);
-                })
-                navigation.navigate('OTP', confirm);
-            }
-            catch (error) {
-                console.log('error', error);
-            }
+            await auth().signInWithPhoneNumber(pno).then((res) => {
+                console.log(res);
+                confirm = res
+                navigation.navigate('OTP', confirm)
+            })
 
 
 
@@ -92,6 +147,7 @@ export default function SignUp({ navigation }: { navigation: any }) {
 
 
                 </Box>
+                {/* <Button onPress={newReference}>T</Button> */}
             </ScrollView>
         </View>
     )
