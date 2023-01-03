@@ -4,7 +4,7 @@ import { Alert, Box, Button, Container, HStack, Input, ScrollView } from 'native
 import database from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
 import { SenderMessage, ReciverMessage } from '../components/firbase/message'
-import { FirebaseDatabaseTypes } from '@react-native-firebase/database';
+// import { FirebaseDatabaseTypes } from '@react-native-firebase/database';
 
 
 
