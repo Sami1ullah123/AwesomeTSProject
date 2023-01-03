@@ -9,29 +9,30 @@ import { FirebaseDatabaseTypes } from '@react-native-firebase/database';
 
 
 export default function ChatScreen({ route }) {
-    var Data = [];
     const [message, setMessage] = useState('');
     const senderId = auth().currentUser?.uid;
     const [allmsgs, setAllMsgs] = useState([]);
     const { name, recieverId, } = route.params;
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     const onvalueChange = database().ref('chatBase').child(senderId).child(recieverId).on('value', (snapshot) => {
-    //         snapshot.forEach((item) => {
-    //             Data.push(item.val());
-    //         })
-    //         console.log('Data1', Data);
-    //         setAllMsgs(Data);
+        getMessages()
 
-    //         // setAllMsgs([]);
-    //     })
+    }, [])
 
+    const getMessages = () => {
+        var Data = [];
+        database().ref('chatBase').child(senderId).child(recieverId).on('value', (snapshot) => {
+            snapshot.forEach((item) => {
+                Data.push(item.val());
+            })
+            // console.log('Data1', Data);
+            console.log("called")
+            setAllMsgs(Data);
+            // setAllMsgs([]);
+        })
 
-
-    // }, [])
-
-
+    }
 
 
 
@@ -64,7 +65,7 @@ export default function ChatScreen({ route }) {
             alert('Please enter a message');
         }
         else {
-            setMessage(message);
+            // setMessage(message);
             database().ref('chatBase/' + senderId).child(recieverId).push({
                 message: message,
                 senderId: senderId,
@@ -110,7 +111,7 @@ export default function ChatScreen({ route }) {
                         _focus={{ backgroundColor: 'white' }}
                     >
                     </Input>
-                    <Button width={60} borderRadius={20} onPress={handleChat}>send</Button>
+                    <Button width={60} borderRadius={20} onPress={() => handleChat()}>send</Button>
                 </HStack>
             </View>
 
