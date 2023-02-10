@@ -11,7 +11,7 @@ import React, { useEffect } from 'react';
 // import Share from 'react-native-share';
 // import VersionCheck from 'react-native-version-check';
 // import Login from './screens/Login';
-// import { NativeBaseProvider } from 'native-base';
+import { NativeBaseProvider } from 'native-base';
 // import { NavigationContainer } from '@react-navigation/native';
 // import {NavigationConatiner} from 'react-native-navigation'
 // import { createStackNavigator } from '@react-navigation/stack'
@@ -32,7 +32,7 @@ import React, { useEffect } from 'react';
 // import ActiveUsers from './screens/ActiveUsers';
 // import ChatScreen from './screens/ChatScreen';
 // import { AppInstalledChecker, CheckPackageInstallation } from 'react-native-check-app-install';
-import SharedGroupPreferences from 'react-native-shared-group-preferences';
+// import SharedGroupPreferences from 'react-native-shared-group-preferences';
 export default function App() {
   // const Stack = createStackNavigator();
 
@@ -66,18 +66,17 @@ export default function App() {
   // };
   const CheckApp = async () => {
     // await Share.isPackageInstalled('com.whatsapp').then((res) => { console.log('object', res); })
-    VersionCheck.getCountry()
-      .then(country => console.log(country));
-    try {
-      await SharedGroupPreferences.isAppInstalledAndroid("com.wslremit").then(() => {
-        Linking.openURL("wslremit://ok")
-      })
 
-    } catch (e) {
-      // IF IS NOT INSTALL
-      console.log('error', e);
-      Linking.openURL("https://play.google.com/store/apps/detai,ls?id=som.wslremit")
-    }
+    // try {
+    //   await SharedGroupPreferences.isAppInstalledAndroid("com.wslremit").then(() => {
+    //     Linking.openURL("wslremit://ok")
+    //   })
+
+    // } catch (e) {
+    //   // IF IS NOT INSTALL
+    //   console.log('error', e);
+    //   Linking.openURL("https://play.google.com/store/apps/detai,ls?id=som.wslremit")
+    // }
     // Share.shareSingle(shareOptions)
     //   .then((res) => { console.log(res) })
     //   .catch((err) => { err && console.log(err); });
@@ -128,6 +127,12 @@ export default function App() {
           <Stack.Screen name='ChatScreen' component={ChatScreen} />
         </Stack.Navigator>
       </NavigationContainer> */}
+      <SafeAreaView>
+        {/* <StatusBar /> */}
+        <View>
+          <Text style={{ fontSize: 24 }}>Hello World</Text>
+        </View>
+      </SafeAreaView>
 
     </NativeBaseProvider>
 
