@@ -13,7 +13,7 @@ import com.facebook.soloader.SoLoader;
 import com.awesometsproject.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import io.xogus.reactnative.versioncheck.RNVersionCheckPackage;  // <--- HERE
+// import io.xogus.reactnative.versioncheck.RNVersionCheckPackage;r  // <--- HERE
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -29,7 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           new RNSharePackage();       
-          new RNVersionCheckPackage() ; 
+          // new RNVersionCheckPackage() ; 
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           return packages;

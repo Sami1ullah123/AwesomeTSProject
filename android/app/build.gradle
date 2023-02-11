@@ -251,7 +251,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-compile project(':react-native-version-check')
+// compile project(':react-native-version-check')
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
  implementation project(':react-native-share')
