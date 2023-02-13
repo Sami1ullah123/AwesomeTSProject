@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.awesometsproject">
  <queries>
-        <package android:name="com.whatsapp.android" />
+        <package android:name="com.wslremit.android" />
         <!-- <package android:name="com.example.services" /> -->
     </queries>
     <uses-permission android:name="android.permission.INTERNET" />
