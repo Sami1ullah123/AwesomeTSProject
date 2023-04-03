@@ -9,7 +9,7 @@
 import { View, Text, TextInput, SafeAreaView } from 'react-native'
 import React, { useEffect } from 'react';
 import Login from './screens/Login';
-import { NativeBaseProvider } from 'native-base';
+import { Button, NativeBaseProvider } from 'native-base';
 import { NavigationContainer } from '@react-navigation/native';
 // import {NavigationConatiner} from 'react-native-navigation'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -29,8 +29,22 @@ import appCheck, { FirebaseAppCheckTypes } from '@react-native-firebase/app-chec
 import { firebase } from '@react-native-firebase/app-check';
 import ActiveUsers from './screens/ActiveUsers';
 import ChatScreen from './screens/ChatScreen';
-export default function App() {
+import CodePush from 'react-native-code-push';
+// let codePushOptions = { checkFrequency: codePush.UpdateState.RUNNING };
+let CodePushOptions = {
+
+  checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME,
+  mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+  updateDialog: false,
+}
+const App = () => {
   const Stack = createStackNavigator();
+  // const buttonPress = () => {
+  //   codePush.sync({
+  //     updateDialog: true,
+  //     installMode: codePush.InstallMode.IMMEDIATE
+  //   });
+  // }
 
   // useEffect(() => {
   //   // appCheck().setTokenAutoRefreshEnabled(true);
@@ -56,23 +70,13 @@ export default function App() {
 
     // <GestureHandlerRootView flex={1}>
     <NativeBaseProvider>
-      <NavigationContainer>
-
-        <Stack.Navigator screenOptions={{ headerShown: true }}>
-
-          <Stack.Screen name='Login' component={Login} />
-          <Stack.Screen name='SignUp' component={SignUp} />
-          <Stack.Screen name='Dashboard' component={Dashboard} />
-          <Stack.Screen name='OTP' component={OTP} />
-          <Stack.Screen name='ADDUsers' component={ADDUsers} />
-          <Stack.Screen name='DisplayUser' component={DisplayUser} />
-          <Stack.Screen name='AddCredentials' component={AddCredentials} />
-          <Stack.Screen name='ActiveUsers' component={ActiveUsers} />
-          <Stack.Screen name='ChatScreen' component={ChatScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <View>
+        <Button>Touch me to Update</Button>
+        <Text>Hello World</Text>
+        <Text>I am the updated version of new </Text>
+      </View>
     </NativeBaseProvider>
-
-
   )
 }
+
+export default CodePush(CodePushOptions)(App);
