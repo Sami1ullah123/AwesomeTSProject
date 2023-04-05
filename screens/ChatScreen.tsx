@@ -9,27 +9,33 @@ import { SenderMessage, ReciverMessage } from '../components/firbase/message'
 
 
 export default function ChatScreen({ route }) {
-    var Data = [];
+    // var Data = [];
     const [message, setMessage] = useState('');
     const senderId = auth().currentUser?.uid;
     const [allmsgs, setAllMsgs] = useState([]);
+    const [start, setStart] = useState(false);
     const { name, recieverId, } = route.params;
 
     // useEffect(() => {
-
-    //     const onvalueChange = database().ref('chatBase').child(senderId).child(recieverId).on('value', (snapshot) => {
+    //     var Data = [];
+    //     database().ref('chatBase').child(senderId).child(recieverId).on('value', (snapshot) => {
     //         snapshot.forEach((item) => {
     //             Data.push(item.val());
     //         })
-    //         console.log('Data1', Data);
+    //         // console.log('Data1', Data);
     //         setAllMsgs(Data);
+
+    //         console.log('RUNNING');
 
     //         // setAllMsgs([]);
     //     })
+    //     // return (() => {
+    //     //     database().ref('chatBase').off();
+    //     // })
 
 
 
-    // }, [])
+    // }, [start])
 
 
 
@@ -77,6 +83,18 @@ export default function ChatScreen({ route }) {
             })
             setMessage('');
             // oooook();
+            // setStart(true);
+            // var Data = [];
+            // // setAllMsgs(Data);
+            // database().ref('chatBase').child(senderId).child(recieverId).on('value', (snapshot) => {
+            //     snapshot.forEach((item) => {
+            //         Data.push(item.val());
+            //     })
+            //     console.log('Data1', Data);
+            //     setAllMsgs(Data);
+
+            //     // setAllMsgs([]);
+            // })
         }
 
     }

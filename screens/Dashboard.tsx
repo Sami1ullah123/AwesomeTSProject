@@ -44,6 +44,7 @@ export default function Dashboard({ navigation }) {
                 <Button onPress={() => navigation.navigate('DisplayUser')} borderRadius={20} mx={10}> All Users</Button>
 
             </HStack>
+            <Button onPress={() => navigation.navigate('MapScreen')} borderRadius={20} mx={10} my={10}> MapScreen  </Button>
             <Button onPress={() => navigation.navigate('ActiveUsers')} borderRadius={20} mx={10} my={10} >Active Users</Button>
             <Button onPress={handleSignOut} alignSelf={'center'} position={'absolute'} bottom={10}   > Signout</Button>
 

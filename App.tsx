@@ -29,6 +29,7 @@ import appCheck, { FirebaseAppCheckTypes } from '@react-native-firebase/app-chec
 import { firebase } from '@react-native-firebase/app-check';
 import ActiveUsers from './screens/ActiveUsers';
 import ChatScreen from './screens/ChatScreen';
+import MapScreen from './screens/MapScreen';
 export default function App() {
   const Stack = createStackNavigator();
 
@@ -62,13 +63,15 @@ export default function App() {
 
           <Stack.Screen name='Login' component={Login} />
           <Stack.Screen name='SignUp' component={SignUp} />
-          <Stack.Screen name='Dashboard' component={Dashboard} />
           <Stack.Screen name='OTP' component={OTP} />
+          <Stack.Screen name='Dashboard' component={Dashboard} />
+          <Stack.Screen name='MapScreen' component={MapScreen} />
           <Stack.Screen name='ADDUsers' component={ADDUsers} />
           <Stack.Screen name='DisplayUser' component={DisplayUser} />
           <Stack.Screen name='AddCredentials' component={AddCredentials} />
           <Stack.Screen name='ActiveUsers' component={ActiveUsers} />
           <Stack.Screen name='ChatScreen' component={ChatScreen} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
