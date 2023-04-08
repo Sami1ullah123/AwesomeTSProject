@@ -1,51 +1,78 @@
 import { View, Text, Dimensions } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import WebView from 'react-native-webview';
 
 import L from 'leaflet'
+import { Button } from 'native-base';
 
 const MapScreen = () => {
 
-    const htmlPage = `<!DOCTYPE html>
-<html>
+  const [color, setColor] = useState('red')
+  const htmlPage = `
+  <!DOCTYPE html>
+  <html>
   <head>
+    <meta charset="utf-8">
+    <title>Leaflet Routing Machine Example</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
     <style>
-      #mapid {
-        height: 100vh;
+      #map {
+        height: 1500px;
+        width: 100%;
+      }
+      #my-directions-container .leaflet-routing-container {
+        width: 300px;
+        height: 400px;
+        font-size: 16px;
       }
     </style>
   </head>
   <body>
-    <div id="mapid"></div>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <script>
-      var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+      // Create the map
+      var map = L.map('map').setView([51.505, -0.09], 13);
+      // Add the tile layer
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
         maxZoom: 18,
-      }).addTo(mymap);
-    
- var myIcon = L.icon({
-  iconUrl: 'marker-icon.png',
-  iconSize: [30, 30],
-});
-
-// Add a marker when the user long-presses on the map
-mymap.on('contextmenu', function(e) {
-  var marker = L.marker(e.latlng, { icon: myIcon }).addTo(mymap);
-});
+      }).addTo(map);
+      // Define the start and end points
+      var startPoint = L.latLng(51.5, -0.1);
+      var endPoint = L.latLng(51.6, -0.2);
+      // Add the routing control
+      L.Routing.control({
+        waypoints: [
+          startPoint,
+          endPoint
+        ],
+        routeWhileDragging: true,
+        lineOptions: {
+          styles: [{color: '${color}', opacity: 0.8, weight: 6}]
+        },
+        createMarker: function() { return null; }
+      }).addTo(map);
+      var startMarker = L.marker(startPoint).addTo(map);
+      var EndMarker = L.marker(endPoint).addTo(map);
+      // Add the search box
+      L.Control.geocoder().addTo(map);
+      L.Control.geocoder({placeholder: 'Enter an address'}).addTo(map);
     </script>
   </body>
-</html>
-
+  </html>
 `
-    return (
-        <WebView
-            originWhitelist={['*']}
-            source={{ html: htmlPage }}
-        />
-    );
+  return (
+    <><WebView
+      originWhitelist={['*']}
+      source={{ html: htmlPage }} />
+      <Button onPress={() => { setColor('blue') }}>
+
+      </Button>
+    </>
+  );
 }
 
 export default MapScreen
