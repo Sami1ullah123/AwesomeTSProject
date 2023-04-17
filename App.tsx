@@ -60,12 +60,12 @@ export default function App() {
       <NavigationContainer>
 
         <Stack.Navigator screenOptions={{ headerShown: true }}>
+          <Stack.Screen name='MapScreen' component={MapScreen} />
 
           <Stack.Screen name='Login' component={Login} />
           <Stack.Screen name='SignUp' component={SignUp} />
           <Stack.Screen name='OTP' component={OTP} />
           <Stack.Screen name='Dashboard' component={Dashboard} />
-          <Stack.Screen name='MapScreen' component={MapScreen} />
           <Stack.Screen name='ADDUsers' component={ADDUsers} />
           <Stack.Screen name='DisplayUser' component={DisplayUser} />
           <Stack.Screen name='AddCredentials' component={AddCredentials} />

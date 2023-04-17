@@ -1,3 +1,5 @@
+
+
 const html_script = `
 
 <!DOCTYPE html>
@@ -17,78 +19,158 @@ const html_script = `
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.min.js" integrity="sha512-FW2A4pYfHjQKc2ATccIPeCaQpgSQE1pMrEsZqfHNohWKqooGsMYCo3WOJ9ZtZRzikxtMAJft+Kz0Lybli0cbxQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.css" integrity="sha512-eD3SR/R7bcJ9YJeaUe7KX8u8naADgalpY/oNJ6AHvp1ODHF3iR8V9W4UgU611SD/jI0GsFbijyDBAzSOg+n+iQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://npmcdn.com/leaflet-geometryutil"></script>
+      <link rel="stylesheet" href="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
+<Style>
+#mapid {
+  height: 500px;
+  width: 100%;
+}
+
+#search-container {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background-color: white;
+  border: 1px solid gray;
+  padding: 10px;
+}
+
+#search-input {
+  width: 80%;
+  margin-right: 10px;
+}
+
+#search-button {
+  width: 15%;
+  background-color: #008CBA;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#search-button:hover {
+  background-color: #0077B3;
+}
+
+</Style>
     </head>
 <body style="padding: 0; margin: 0">
-<div id="mapid" style="width: 100%; height: 100vh;"></div>
+
+
+<div id="mapid" ></div>
+<div id="search-container">
+  <input type="text" id="search-input" placeholder="Search location...">
+  <button id="search-button">Search</button>
+</div>
+</div>
+</div>
+
+
+
+
+
 <script>
 
     var mymap = L.map('mapid').setView([51.505, -0.09], 5);
     attribution = mymap.attributionControl;
     attribution.setPrefix('HTGPS');
    var mp =   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a>holmanntech</a> contributors'
+    attribution: '&copy; <a>Codek.Tech</a> contributors'
     }).addTo(mymap);
-    var routingControl = L.Routing.control({
-        show:false,
-        router: new L.Routing.OSRMv1({
-          serviceUrl: 'http://86.104.210.107/osrm/route/v1/'
-        }),
-        routeWhileDragging: true,
-        addWaypoints:false,
-        createMarker: function (i, waypoint, n) {
-          //console.log(i)
-            const marker = L.marker(waypoint.latLng, {
-            
-              icon: L.icon({
-      
-              iconUrl: i===0? 'https://i.ibb.co/52LKysn/icons8-taxi-location-96.png':"https://i.ibb.co/WgwhZkj/location.png",
-              iconSize:[50,52]
-              })
-            });
-            return marker;
-            }
-      })
-      .addTo(mymap);
-     
-        var greenIcon = L.icon({
-            iconUrl: '798.png',
-            iconSize:     [50, 95], // size of the icon
-            });
-        // L.marker([57.75, 11.94],greenIcon).addTo(mymap);
-        // L.marker([57.75, 11.94], {icon: greenIcon}).addTo(mymap).bindPopup("I am a green leaf.");
+    var greenIcon = L.icon({
+    iconUrl: 'https://www.freeiconspng.com/thumbs/location-icon-png/map-location-icon-29.png',
+    
 
+    iconSize:     [38, 95], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+L.marker.addTo(mymap);
 
-    var popup = L.popup();
-    var ls = L.ro
+L.Control.Watermark = L.Control.extend({
+    onAdd: function(mymap) {
+        var img = L.DomUtil.create('img');
 
-    function onMapClick(e) {
-        popup
-            .setLatLng(e.latlng)
-            .setContent("You clicked the map at " + e.latlng.toString())
-            .openOn(mymap);
+        img.src = 'https://codek.tech/wp-content/uploads/2022/01/cropped-Group-35-1.png';
+    img.style.width = '100px';
+
+        return img;
+    },
+
+    onRemove: function(mymap) {
+        // Nothing to do here
     }
+});
 
-    // mymap.on('click', onMapClick);
+L.control.watermark = function(opts) {
+    return new L.Control.Watermark(opts);
+}
 
-// calculating distance
-    var wayPoint1 = L.latLng(0,0);
-    var wayPoint2 = L.latLng(0,0);
+L.control.watermark({ position: 'bottomleft' }).addTo(mymap);
+
+var markerTimeout;
+var markers = [];
+mymap.on('click', function(e) {
     
-    rWP1 = new L.Routing.Waypoint;
-    rWP1.latLng = wayPoint1;    
-    
-    rWP2 = new L.Routing.Waypoint;
-    rWP2.latLng = wayPoint2;    
-    
-    var myRoute = L.Routing.osrmv1(
-       { serviceUrl: 'http://86.104.210.107/osrm/route/v1/'}
-    
-    );
-    myRoute.route([rWP1, rWP2], function(err, routes) {
-        distance = routes[0].summary.totalDistance;
-        window.ReactNativeWebView.postMessage(JSON.stringify(routes[0].summary))
+ if (markerTimeout) {
+    clearTimeout(markerTimeout);
+    markerTimeout = null;
+  }
+ 
+   
+
+  markerTimeout = setTimeout(function() {
+    markers = L.marker(e.latlng).addTo(mymap);
+    markers.bindPopup('Marker location: ' + e.latlng.toString()).openPopup();;
+  }, 1000); // add marker after 1 second (1000 milliseconds)
+
+  
+});
+
+
+
+
+
+var searchButton = document.getElementById('search-button');
+searchButton.addEventListener('click', function() {
+  var searchInput = document.getElementById('search-input').value;
+  searchLocation(searchInput);
+});
+// Add a search location function
+function searchLocation(location) {
+  var url = 'https://nominatim.openstreetmap.org/search?q=' + location + '&format=json&addressdetails=1&limit=1';
+  
+  fetch(url)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      if (data.length > 0) {
+        var lat = parseFloat(data[0].lat);
+        var lon = parseFloat(data[0].lon);
+        mymap.setView([lat, lon], 13);
+        var marker = L.marker([lat, lon]).addTo(mymap);
+        marker.bindPopup(data[0].display_name).openPopup();
+      } else {
+        alert('Location not found!');
+      }
+    })
+    .catch(function(error) {
+      console.log(error);
+      alert(error.message);
     });
-    //
+    
+
+
+}
 
  
     
