@@ -9,7 +9,10 @@ import KeepAwake from "react-native-keep-awake";
 import Geolocation from 'react-native-geolocation-service';
 
 const MapScreen = ({ route, navigation }: any) => {
-  var pos;
+  var pos = {
+    latitude: 0,
+    longitude: 0,
+  };
   var granted;
   const [myPos, setmyPos] = useState({ lat: 0, lon: 0 });
   const requestLocationPermission = async () => {
@@ -29,9 +32,7 @@ const MapScreen = ({ route, navigation }: any) => {
 
         Geolocation.getCurrentPosition(
           (position) => {
-            pos = position.coords
-            setmyPos({ lat: pos.latitude, lng: pos.longitude });
-            console.log('position', myPos);
+            setmyPos({ lat: position.coords.latitude, lon: position.coords.longitude });
           },
           (error) => {
             // See error code charts below.
@@ -53,8 +54,26 @@ const MapScreen = ({ route, navigation }: any) => {
   }, [!granted]);
 
 
+  function getLocation() {
 
+    console.log("You can use the location")
+    // Alert.alert("You can use the location");
 
+    Geolocation.getCurrentPosition(
+      (position) => {
+        setmyPos({ lat: position.coords.latitude, lon: position.coords.longitude });
+      },
+      (error) => {
+        // See error code charts below.
+        console.log(error.code, error.message);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+  }
+
+  useEffect(() => {
+    getLocation();
+  }, [granted])
   // const activeOrder  = 
   //   const location = {
   //     latitude: '69.05716',
@@ -116,13 +135,9 @@ const MapScreen = ({ route, navigation }: any) => {
   //     },
   //     [location, mapPoint]
   //   );
-  const runFirst = ` 
-  alert(${myPos.lat},${myPos.lon});
-    mymap.setView([${myPos.lat},${myPos.lon}], 13);
-    alert("Second");
-    `
+  console.log(myPos);
 
-    ;
+  const runFirst = `mymap.setView([${myPos.lat},${myPos.lon}],13);`
 
   //   const _goToMyPosition = useCallback(
   //     () => {
@@ -171,9 +186,7 @@ const MapScreen = ({ route, navigation }: any) => {
 
         source={{ html: html_script }}
         originWhitelist={['*']}
-        javaScriptEnabledAndroid={true}
         injectedJavaScript={runFirst}
-
 
       />
     </View>
