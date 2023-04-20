@@ -29,7 +29,7 @@ const html_script = `
   <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
 <Style>
 #mapid {
-  height: 500px;
+  height: 100vh;
   width: 100%;
 }
 
@@ -131,6 +131,11 @@ mymap.on('click', function(e) {
 
   markerTimeout = setTimeout(function() {
     markers = L.marker(e.latlng).addTo(mymap);
+    window.ReactNativeWebView.postMessage(JSON.stringify({ action: 'flagAdeed', data: e.latlng }));
+    markers.on('click', function(){
+  alert(e.latlng);
+  window.ReactNativeWebView.postMessage(JSON.stringify({ action: 'navigate', data: e.latlng }));
+});
      dynamicMarkerArray.push([e.latlng.lat, e.latlng.lng]);
   updateHeatmap();
   }, 1000); // add marker after 1 second (1000 milliseconds)

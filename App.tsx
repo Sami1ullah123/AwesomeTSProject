@@ -30,6 +30,7 @@ import { firebase } from '@react-native-firebase/app-check';
 import ActiveUsers from './screens/ActiveUsers';
 import ChatScreen from './screens/ChatScreen';
 import MapScreen from './screens/MapScreen';
+import ModalScreen from './screens/ModalScreen';
 export default function App() {
   const Stack = createStackNavigator();
 
@@ -60,18 +61,20 @@ export default function App() {
       <NavigationContainer>
 
         <Stack.Navigator screenOptions={{ headerShown: true }}>
+          <Stack.Screen name='Dashboard' component={Dashboard} />
           <Stack.Screen name='MapScreen' component={MapScreen} />
 
           <Stack.Screen name='Login' component={Login} />
           <Stack.Screen name='SignUp' component={SignUp} />
           <Stack.Screen name='OTP' component={OTP} />
-          <Stack.Screen name='Dashboard' component={Dashboard} />
           <Stack.Screen name='ADDUsers' component={ADDUsers} />
           <Stack.Screen name='DisplayUser' component={DisplayUser} />
           <Stack.Screen name='AddCredentials' component={AddCredentials} />
           <Stack.Screen name='ActiveUsers' component={ActiveUsers} />
           <Stack.Screen name='ChatScreen' component={ChatScreen} />
-
+          <Stack.Group screenOptions={{ presentation: 'transparentModal', headerShown: false }}  >
+            <Stack.Screen name='ModalScreen' component={ModalScreen} />
+          </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

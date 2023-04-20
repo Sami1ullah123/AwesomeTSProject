@@ -7,6 +7,7 @@ import html_script from "../screens/index";
 import { Button, View, Text, } from "native-base";
 import KeepAwake from "react-native-keep-awake";
 import Geolocation from 'react-native-geolocation-service';
+import { event } from "react-native-reanimated";
 
 const MapScreen = ({ route, navigation }: any) => {
   var pos = {
@@ -175,7 +176,24 @@ const MapScreen = ({ route, navigation }: any) => {
   //     };
   //   },
   //   [location]
+
   // );
+  const handleWebViewMessage = (event) => {
+    const data = JSON.parse(event.nativeEvent.data);
+    console.log('object', data);
+
+    if (data.action === 'navigate') {
+      console.log(data.data);
+      navigation.navigate('ModalScreen');
+      // Debugging output
+      // Do something with the data, such as passing it to a navigation function
+      // Example: navigation.navigate('MyScreen', { foo })
+    }
+    else {
+      console.log(data.data);
+    }
+  };
+
   return (
     <View
       flex={1}
@@ -184,12 +202,27 @@ const MapScreen = ({ route, navigation }: any) => {
     >
       <WebView
 
+
         source={{ html: html_script }}
         originWhitelist={['*']}
         injectedJavaScript={runFirst}
+        onMessage={handleWebViewMessage}
 
       />
-    </View>
+      {/* <WebView
+
+        source={{ uri: 'https://reactnative.dev' }}
+        originWhitelist={['*']}
+        javaScriptEnabledAndroid={true}
+        injectedJavaScript={jsCode}
+      
+      /> */}
+
+      <View style={{ zIndex: 100, position: 'absolute', bottom: '10%', }}>
+        <Button borderRadius={40} p={5}></Button>
+        <Text>Messages</Text>
+      </View>
+    </View >
   );
 };
 
